@@ -1,0 +1,52 @@
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace TextAnalysis
+{
+    static class SentencesParserTask
+    {
+        public static List<List<string>> ParseSentences(string text)
+        {
+            var listSentences = new List<List<string>>();
+            if (text == null) return null; //проверка на наличие текста
+            text = text.ToLower();
+            foreach (var word in SplitOnSentences(text))
+            {
+                var wordsList = CreateWordsList(word);
+                if (wordsList.Count > 0)
+                    listSentences.Add(wordsList);
+            }
+            return listSentences;
+        }
+        public static string[] SplitOnSentences (string text)
+        {
+            var pattern = new char[] { '.', '!', '?', ';', ':', '(', ')' };
+            return text.Split(pattern, StringSplitOptions.RemoveEmptyEntries); 
+        }
+        public static List<string> CreateWordsList(string sentence)
+        {
+            var wordsList = new List<string>();
+            var builder = new StringBuilder();
+            foreach (var ch in sentence)
+            {
+                if (char.IsLetter(ch) || ch == '\'')
+                    builder.Append(ch);
+                else
+                    AddNotEmptyWord(builder, wordsList);
+            }
+            AddNotEmptyWord(builder, wordsList);
+
+            return wordsList;
+        }
+        public static void AddNotEmptyWord(StringBuilder builder, List<string> wordsList)
+        {
+            if (builder.Length > 0)
+            {
+                wordsList.Add(builder.ToString());
+                builder.Clear();
+            }
+        }
+    }
+}
