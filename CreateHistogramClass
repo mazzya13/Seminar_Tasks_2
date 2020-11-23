@@ -1,0 +1,26 @@
+using System;
+using System.Configuration;
+using System.Linq;
+using System.Windows.Forms.VisualStyles;
+
+namespace Names
+{
+    internal static class HistogramTask
+    {
+        public static HistogramData GetBirthsPerDayHistogram(NameData[] names, string name)
+        {
+            var labelX = new string[31];
+            var nameCount = new double[31];
+            for (int i = 0; i < labelX.Length; i++)
+                labelX[i] = (i + 1).ToString();
+            foreach (var a in names)
+                if(a.Name == name)
+                    nameCount[a.BirthDate.Day - 1]++;
+            nameCount[0] = 0;
+            return new HistogramData(
+                string.Format("Рождаемость людей с именем '{0}'", name), 
+                labelX, 
+                nameCount);
+        }
+    }
+}
