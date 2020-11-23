@@ -1,0 +1,14 @@
+        private static string ApplyCommands(string[] commands)
+        {
+            var builder = new StringBuilder();
+            var pop = 0;
+            for (int i = 0; i < commands.Length; i++)
+                if(commands[i].Substring(0,2) == "pu")
+                    builder.Append(commands[i].Substring(5));
+                else
+                {
+                    pop = int.Parse(commands[i].Substring(4));
+                    builder.Remove(builder.Length - pop, pop);
+                }
+            return builder.ToString();
+        }
