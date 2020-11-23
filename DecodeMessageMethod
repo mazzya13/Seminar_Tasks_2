@@ -1,0 +1,11 @@
+        private static string DecodeMessage(string[] lines)
+        {
+            var list = new List<string>();
+            string decodeMessage = "";
+            foreach (var word in lines)
+                if (char.IsUpper(word[0]))
+                    list.Insert(0, word);
+            foreach (var word in list)
+                decodeMessage += word + " ";
+            return decodeMessage;
+        }
